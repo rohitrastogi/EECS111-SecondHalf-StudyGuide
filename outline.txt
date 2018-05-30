@@ -98,6 +98,47 @@ Generative Recursion
 
 SECTION 6
 Map, Filter, Foldr
+Map, filter, and foldr are examples of higher-order functions. A higher-order function is a function that either:
+- takes another function as an input
+- returns a function
+Map, filter, and foldr each take functions as inputs.
+
+Here are the semantics of map, filter, and foldr. See 
+* Map: [F: X ->Y] [List of X] -> [List of Y] - Map applies a function to each element of a list and returns the list 
+  of results in the same order as the original list.
+  Ex. 
+  ; Multiply by 2
+  (map (lambda (x) (* x 2)) (list 1 2 3 4 5)) -> (list 2 4 6 8 10)
+
+* Filter: [F: X->Boolean] [List of X] -> [List of X] - Filter applies a function to each element of a list and returns the list
+  of elements that the function returns true for.
+  Ex.
+  ; Filter even numbers
+  (filter (lambda (x) (= 0 (modulo x 2))) (list 1 2 3 4 5) -> (list 2 4)
+
+* Andmap: [F: X->Boolean] [List of X] -> Boolean - Andmap applies a function to each element of a list and 'and's each result together
+  Ex.
+  ; Are all elements even?
+  (andmap (lambda(x) (= 0 (modulo x 2))) (list 2 4 6 8)) -> #true
+
+* Ormap: [F: X->Boolean] [List of X] -> Boolean - Ormap applies a function to each element of a list and 'or's each result together
+  Ex.
+  ; Is there at least one even element in the list?
+  (ormap (lambda(x) (= 0 (modulo x 2))) (list 1 3 5 7 2)) -> #true
+
+* Foldr: [F: X Y -> Y] Y [List of X] -> Y - Foldr applies a function to each element of a list (starting with the right) and the second argument
+  of foldr. It subsequently updates the second argument with this return value. Once all elements of the input list have been considered, the second argument 
+  is returned.
+  Ex.
+  ; Sum all elements in a list
+  (foldr (lambda (x y) (+ x y) 0 (list 1 2 3 4 5))) -> 15
+
+  Exercise 1: Use foldr to write map 
+  Exercise 2 Use foldr to write andmap and ormap
+  Exercise 3: Use foldr to write filter (hint: use andmap)
+  Exercise 4: When might it be useful to use map, a higher order-function that returns a function, and a list to return a list of functions?
+
 
 SECTION 7
 Local and Lambda
+- Returning functions
