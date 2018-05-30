@@ -9,7 +9,7 @@ A List-of-names is one of :
 - ‘()
 - (cons String List-of-names)
 
-When lists are formed, one must always start with an empty list. An empty list is donated as ‘(). To check if a list is empty, we use the empty? predicate.
+When lists are formed, one must always start with an empty list. An empty list is denoted as ‘(). To check if a list is empty, we use the empty? predicate.
 
 To form a list-of-names, we simply chain a list of cons statements as follows:
 (define peer-mentors (cons “Rohit" (cons “Jeffrey” (cons “Hayden” (cons “Alin” (cons “Aaron” (cons “Nila” (cons “Prashanth” (cons “Shu” ‘()))
@@ -98,7 +98,7 @@ Generative Recursion
 
 SECTION 6
 Map, Filter, Foldr
-Map, filter, and foldr are examples of higher-order functions. A higher-order function is a function that either:
+Map, filter, and foldr are examples of 'higher-order' functions. A higher-order function is a function that either:
 - takes another function as an input
 - returns a function
 Map, filter, and foldr each take functions as inputs.
@@ -136,9 +136,22 @@ Here are the semantics of map, filter, and foldr. See
   Exercise 1: Use foldr to write map 
   Exercise 2 Use foldr to write andmap and ormap
   Exercise 3: Use foldr to write filter (hint: use andmap)
-  Exercise 4: When might it be useful to use map, a higher order-function that returns a function, and a list to return a list of functions?
+  Exercise 4: When might it be useful to use map with a higher order-function that returns a function and a list to return a list of functions?
 
 
 SECTION 7
 Local and Lambda
-- Returning functions
+Lambda
+The keyword lambda defines 'anonymous' functions. An anonymous function is simply a function not bound to a name. Lambda functions are generally used to define
+functions that higher-order functions take as input. See the section on Map, Filter, and Foldr for some examples. Lambda functions are generally preferred to 
+named functions in the context of higher order functions as the function definition code is kept close to its call within the higher order function. Also, lambda
+functions are generally used for one-off computations exclusively used in the context of the higher-order-function is defined, so it doesn't make sense for the functions
+to be defined globally in the program.
+
+Local
+Use cases:
+- names for intermediate values, helps break complicated expressesions into a series of simpler ones
+- limit the scope of helper functions 
+
+
+Closures
