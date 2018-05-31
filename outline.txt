@@ -48,9 +48,7 @@ The template would be as follows:
     (cond
         [(string? a-train) …]
         [else … (train-capacity a-train) …
-                 … process-train (train-rest a-train)…]
-    )
-)
+                 … process-train (train-rest a-train)…]))
 
 If our train is a String, we know that the Train must be a “caboose”. If the train is a “caboose”, we know we’ve reached the end of the Train. This is because the Train definition of “caboose” does not refer to the Train data definition. When we’ve reached the caboose, we complete some computation and terminate our process-train function. 
 
@@ -97,19 +95,14 @@ The templates would be as follows:
     (cond
         [(string? a-tree) …]
         [else … (Tree-value a-tree) ...
-                … (process-children (Tree-children a-tree))
-        ]
-    )
-)
+                … (process-children (Tree-children a-tree))]))
+
 
 (define (process-children (some-children)
     (cond
         [(empty? some-children) …]
         [else … (process-tree (first some-children)
-                 …(process-children (rest some-children)
-        ]
-    )
-)
+                 …(process-children (rest some-children)]))
 
 When processing a Tree, we first check if the Tree is a leaf. If the Tree is a leaf, we complete some computation and end our recursion. If the Tree is not a leaf, we complete some computation on the Tree's value but then call our recursive process-children function on the Tree's children.
 
@@ -160,9 +153,7 @@ Now let's write a ISL function to calculate the GCD of two numbers.
 (define (GCD A B)
     (cond 
         [(zero? B) A]
-        [else (GCD B (modulo A B))]
-     )
-)
+        [else (GCD B (modulo A B))]))
 
 Why does this program terminate? It isn't immediately obvious.
 
@@ -225,9 +216,44 @@ functions are generally used for one-off computations exclusively used in the co
 to be defined globally in the program.
 
 Local
-Use cases:
-- names for intermediate values, helps break complicated expressesions into a series of simpler ones
-- limit the scope of helper functions 
+According to the Racket documentation, local has the following semantics:
+    (local [definition ...] body ...). The following examples will make this syntax more clear.
+
+ISL allows for local definitions within expressions. There are two main benefits of using a local defintion:
+- Local definitions provide names for intermediate values. They can help break complicated expressesions into a series of simpler ones:
+    Ex. Let's write a function to take the slope of a line:
+    ; slope: Number Number Number Number -> Number
+    (define (slope x1 y1 x2 y2)
+        (local
+            [(define rise y2-y1)] ;definition
+            [(define run (x2-x1))] ;definition
+            (/ rise run))) ;body
+        
+- Local definitions for functions can limit the scope of helper functions.
+    Ex. Use a locally defined helper function to calculate the fatorial of a number 
+    ; factorial: Number -> Number
+    (define (factorial n)
+        (local
+            [(define (factorial-helper index accum)  ;definition
+                (cond
+                    [(> n i) (factorial-helper (+ index 1) (* index accum))]
+                    [else accum])]
+            (factorial-helper 1 1)))) ;body
+    
+    Exercise 7: Write another recursive version of factorial
+    Exercise 8: Write factorial using foldr
+
+    See do-filter in lab 8 for another example of local defintions of functions.
+    There are several things to unpack in this function above:
+    1) Accum holds on to our in-progress 'answer' as we step through the factorial algorithm.
+    2) Notice that factorial-helper references the variable n. N is a parameter of the outer factorial function. If factorial-helper was defined outside of factorial,
+    it would need to take an extra parameter to have access to n. Every inner function/definition can reference the parameters of the outer function. This is called lexical scoping.
+
+    
+
+    
+
+
 
 
 Closures
