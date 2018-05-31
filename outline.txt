@@ -56,14 +56,30 @@ If our train is a String, we know that the Train must be a “caboose”. If the
 
 If our train is not a String, it must be a trainCar. In this case, we complete some computation on the the current trainCar and then call process-train on the rest of the Train recursively, following the recursive data-definition of the Train.
  
-Lists and 'list-like' data definitions (ex. the Train) are the most common recursive data-definitions that we’ve seen in class. Here is more information on lists. But, they certainly are not the only recursive data-definitions. Other examples of recursive data-definitions include:
-* Binary Tree Nodes - Each Node is defined in terms of its left child Node and its right child Node. 
-* Alpacas - Each Alpaca is defined in terms of its sire Alpaca and dam Alpaca
-Some recursive data-definitions can get really crazy and hard to wrap your head around. But for every recursive-data definition, you can use structural decomposition and write a template that follows the recursive structure of the data-definition to process the data.
+Lists and 'list-like' data definitions (ex. the Train) are the most common recursive data-definitions that we’ve seen in class. Here is more information on lists. But, they certainly are not the only recursive data-definitions. Another example of a recursive data-definition that we've seen in class is the Alpaca. A generalization of the Alpaca
+data-definition is a BinaryTree. Here is the data-definition for a BinaryTree:
+* Binary Trees - Each Node is defined in terms of its left child Node and its right child Node. The formal data definition is:
+  (define-struct Node [value left right])
+  A BinaryTree is one of:
+  - "leaf"
+  -  (make-Node Number BinaryTree BinaryTree)
+
+Some recursive data-definitions can get really complicated and difficult to work with. Remember though, with recusive data definitions, you can always use structural decomposition to write a template that follows the recursive structure of the data-definition to process the data.
+
+  Exercise 1:
+  Consider the following BinaryTree: 
+  (make-Node 1 (make-Node 2 (make-Node 4 "leaf" "leaf")
+                            (make-Node 5 "leaf" "leaf"))
+                (make-Node 3 "leaf" "leaf"))
+                
+    Write a function to traverse the tree and add every element to the list in the following order:
+    a. 4 2 5 1 3
+    b. 1 2 4 5 3
+    c. 4 5 2 3 1
 
 SECTION 4
 Mutual Recursion
-Sometimes two data-defintitions are defined in terms of each other. If this is the case, the data-definitions are said to be mutually recursive. To be more concrete, here is a simple example of some mutually recursive data definitions (for a more complicated example, see Lab 7 for the JSON data-definition):
+Sometimes many data-definitions are defined in terms of each other. If this is the case, the data-definitions are said to be mutually recursive. To be more concrete, here is a simple example of some mutually recursive data definitions (for a more complicated example, see Lab 7 for the JSON data-definition):
 
 (define-struct Tree [value children])
 A Tree is one of:
@@ -86,15 +102,34 @@ The templates would be as follows:
 
 (define (process-children (some-children)
     (cond
-        [ (empty? some-children) …]
+        [(empty? some-children) …]
         [else … (process-tree (first some-children)
                  …(process-children (rest some-children)
         ]
     )
 )
 
+Exercise 2:
+Write a template to process the following mutually recursive data definitions:
+A ListOfAlternatingNumbersandStrings is one of:
+- '()
+- (cons Number ListOfAlternatingStringsandNumbers)
+
+A ListOfAlternatingStringsandNumbers is one of:
+- '()
+- (cons Number ListOfAlternatingNumbersandStrings)
+
+Note: Example taken from Mitchell Wand's Northeastern University Lecture on Mutually-Recursive Data Definitions
+
 SECTION 5
 Generative Recursion
+The recursion examples in Sections 3 and 4 are examples of structural recursion - that is, we expot the structure of our data definition to organize
+the structure of our code. More concretely, if we are writing a function to do some computation on a list, we know we must process the first element of the list.
+While structural recursion is a useful tool that can be used to solve some problems with recursive solutions, it cannot be used to solve all problems. Namely, it
+cannot solve problems where the input is not defined recursively. 
+
+Generative recursion a general problem-solving technique that can be applied to a wide class of problems. Generative recursion generates a set of subproblems
+from the current problem at hand. The answers to these subproblems are then combined to provide us the solution.
 
 SECTION 6
 Map, Filter, Foldr
@@ -133,10 +168,10 @@ Here are the semantics of map, filter, and foldr. See
   ; Sum all elements in a list
   (foldr (lambda (x y) (+ x y) 0 (list 1 2 3 4 5))) -> 15
 
-  Exercise 1: Use foldr to write map 
-  Exercise 2 Use foldr to write andmap and ormap
-  Exercise 3: Use foldr to write filter (hint: use andmap)
-  Exercise 4: When might it be useful to use map with a higher order-function that returns a function and a list to return a list of functions?
+  Exercise 3: Use foldr to write map 
+  Exercise 4 Use foldr to write andmap and ormap
+  Exercise 5: Use foldr to write filter (hint: use andmap)
+  Exercise 6: When might it be useful to use map with a higher order-function that returns a function and a list to return a list of functions?
 
 
 SECTION 7
