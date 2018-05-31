@@ -86,6 +86,8 @@ A Tree is one of:
 - “leaf'
 - (make-Tree Number Children)
 
+Note: A tree must have at least one child.
+
 Children is a [List of Tree]
 
 Here, Tree refers to Children and Children refers to Tree. Tree and Children are said to be mutually recursive. How would we write a function to process this Tree and Children data-definitions? Again, we should define  templates that closely follows the recursive data-definitions of Tree and Children.
@@ -109,6 +111,11 @@ The templates would be as follows:
     )
 )
 
+When processing a Tree, we first check if the Tree is a leaf. If the Tree is a leaf, we complete some computation and end our recursion. If the Tree is not a leaf, we complete some computation on the Tree's value but then call our recursive process-children function on the Tree's children.
+
+When processing a Tree's children, we first check if the list of children is empty. If our list is empty, we know we've already processed all of the children so we can end our recursion. If the list of children is not empty, we process the first Tree using our recursive process-Tree function,
+and recursively call process-children on the rest of the tree's children.
+
 Exercise 2:
 Write a template to process the following mutually recursive data definitions:
 A ListOfAlternatingNumbersandStrings is one of:
@@ -123,13 +130,47 @@ Note: Example taken from Mitchell Wand's Northeastern University Lecture on Mutu
 
 SECTION 5
 Generative Recursion
-The recursion examples in Sections 3 and 4 are examples of structural recursion - that is, we expot the structure of our data definition to organize
-the structure of our code. More concretely, if we are writing a function to do some computation on a list, we know we must process the first element of the list.
-While structural recursion is a useful tool that can be used to solve some problems with recursive solutions, it cannot be used to solve all problems. Namely, it
-cannot solve problems where the input is not defined recursively. 
+The recursion examples in Sections 3 and 4 are examples of structural recursion - that is, we exploit the structure of our data definition to organize
+the structure of our code. More concretely, if we are writing a function to do some computation on a list, we know we must process the first element of the list
+and then the rest of the list. While structural recursion is a useful tool that can be used to solve some problems with recursive solutions, it cannot be used to s
+olve all problems. Namely, it cannot solve problems where the input is not defined recursively. 
 
 Generative recursion a general problem-solving technique that can be applied to a wide class of problems. Generative recursion generates a set of subproblems
-from the current problem at hand. The answers to these subproblems are then combined to provide us the solution.
+from the current problem at hand. The answers to these subproblems are then combined to provide the solution.
+
+Here is the template for general recursion:
+(define (generative-recursive-fun problem)
+  (cond
+    [(trivially-solvable? problem)
+     (determine-solution problem)]
+    [else
+     (combine-solutions
+       ... problem ...
+       (generative-recursive-fun (generate-problem-1 problem))
+       ...
+       (generative-recursive-fun (generate-problem-n problem)))]))
+
+See lecture 17 for some great worked examples of generative recursion (mergesort, quicksort, fibonacci). Here is an additional worked example of generative recursion:
+
+Background: The Euclidean algorithm is an efficient way to find the greatest common divisor of two positive integers A and B. The algorithm works by repeated division. 
+Read https://en.wikipedia.org/wiki/Euclidean_algorithm to understand the mechanics of the algorithm.
+
+Now let's write a ISL function to calculate the GCD of two numbers.
+; GCD : Natural Natural -> Natural
+(define (GCD A B)
+    (cond 
+        [(zero? B) A]
+        [else (GCD B (modulo A B))]
+     )
+)
+
+Why does this program terminate? It isn't immediately obvious.
+
+Run this function on a few different A and B inputs and use the DrRacket stepper. You will see that at each iteration of the algorithm,
+the modulo decreases by at least 1. Eventually, the modulo value reaches 0 and the program reaches its termination condition. 
+
+Notice how each recusive call to GCD is generated based on the euclidean algorithm, and not the structure of the input (a natural number).
+Generative recursion problems are usually more challenging to solve than structural recursion problems and usually require some domain specific knowledge.
 
 SECTION 6
 Map, Filter, Foldr
