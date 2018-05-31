@@ -1,7 +1,4 @@
 SECTION 1
-Abstraction
-
-SECTION 2
 Lists
 Lists are recursive data definitions. An example data definition for a list is as follows:
 
@@ -25,7 +22,7 @@ Some other list functions that you may find useful include:
 * length: [list of X] -> Number
             Returns the length of the argument list
 
-SECTION 3
+SECTION 2
 What is recursion?
 Recursion occurs when a thing is defined in terms of itself or of its type.  
 
@@ -75,7 +72,7 @@ Some recursive data-definitions can get really complicated and difficult to work
     b. 1 2 4 5 3
     c. 4 5 2 3 1
 
-SECTION 4
+SECTION 3
 Mutual Recursion
 Sometimes many data-definitions are defined in terms of each other. If this is the case, the data-definitions are said to be mutually recursive. To be more concrete, here is a simple example of some mutually recursive data definitions (for a more complicated example, see Lab 7 for the JSON data-definition):
 
@@ -121,7 +118,7 @@ A ListOfAlternatingStringsandNumbers is one of:
 
 Note: Example taken from Mitchell Wand's Northeastern University Lecture on Mutually-Recursive Data Definitions
 
-SECTION 5
+SECTION 4
 Generative Recursion
 The recursion examples in Sections 3 and 4 are examples of structural recursion - that is, we exploit the structure of our data definition to organize
 the structure of our code. More concretely, if we are writing a function to do some computation on a list, we know we must process the first element of the list
@@ -163,7 +160,8 @@ the modulo decreases by at least 1. Eventually, the modulo value reaches 0 and t
 Notice how each recusive call to GCD is generated based on the euclidean algorithm, and not the structure of the input (a natural number).
 Generative recursion problems are usually more challenging to solve than structural recursion problems and usually require some domain specific knowledge.
 
-SECTION 6
+SECTION 5
+List Abstractions 
 Map, Filter, Foldr
 Map, filter, and foldr are examples of 'higher-order' functions. A higher-order function is a function that either:
 - takes another function as an input
@@ -200,13 +198,15 @@ Here are the semantics of map, filter, and foldr. See
   ; Sum all elements in a list
   (foldr (lambda (x y) (+ x y) 0 (list 1 2 3 4 5))) -> 15
 
+  Note: for each of these functions, the variable x in the lambda will be bound to single element of the list that is taken as an input.
+
   Exercise 3: Use foldr to write map 
   Exercise 4 Use foldr to write andmap and ormap
   Exercise 5: Use foldr to write filter (hint: use andmap)
   Exercise 6: When might it be useful to use map with a higher order-function that returns a function and a list to return a list of functions?
 
 
-SECTION 7
+SECTION 6
 Local and Lambda
 Lambda
 The keyword lambda defines 'anonymous' functions. An anonymous function is simply a function not bound to a name. Lambda functions are generally used to define
@@ -247,13 +247,27 @@ ISL allows for local definitions within expressions. There are two main benefits
     There are several things to unpack in this function above:
     1) Accum holds on to our in-progress 'answer' as we step through the factorial algorithm.
     2) Notice that factorial-helper references the variable n. N is a parameter of the outer factorial function. If factorial-helper was defined outside of factorial,
-    it would need to take an extra parameter to have access to n. Every inner function/definition can reference the parameters of the outer function. This is called lexical scoping.
+    it would need to take an extra parameter to have access to n. Every inner function/definition can reference the parameters of the outer function. This is formally called lexical scoping.
 
-    
+    Here is another example of lexical scoping using lambda:
+    (define (larger-than-predicate n)
+        (lambda (v) (> v n )))
 
-    
+    (filter (larger-than-predicate 5) '(1 2 3 4 5 6 7 8 9 10))
 
 
+An aside: Closures (an example):
+(define (create-closure x)
+    (lambda (y) (+ x y)))
 
+This function returns a function. The returned function is formally called a closure.
+Let's do:
+(define my-function (create-closure 5)). This definition binds the value of 5 to x and the name 'my-function' to (lambda(y) (+ 5 y)). 
 
-Closures
+Now we can call my-function as such:
+(my-function 10), which binds the value of y in the create-closure function to 10. (my-function 10) returns 15.
+
+Note: Filter-digits in Lab 8 returns a closure, as well.
+If you're interested in learning more about closures, check out: https://en.wikipedia.org/wiki/Closure_(computer_programming)
+
+You don't need to know what closures are and lexical scoping are formally - you just need to know that they exist and that we've been using them.
