@@ -44,11 +44,23 @@ The above list is equivalent to:
 Some other list functions that you may find useful include:
 * `append`: [list of X] [list of X] … -> [list of X] \
             Constructs a new list from several lists by concatenating the argument lists together.
+    ```racket
+    ; Example:
+    (append (list 1 2) (list 3 4)) -> (list 1 2 3 4)
+    ```
+
 * `remove`: X [list of X] -> [list of X] \
             Constructs a new list wth the first occurrence of X removed.
+    ```racket
+    ; Example:
+    (remove 2 (list 1 2 3 2 3)) -> (list 1 3 2 3)
+    ```
 * `length`: [list of X] -> Number \
             Returns the length of the argument list
-
+    ```racket
+    ; Example: 
+    (length (list 1 2 3)) -> 3
+    ```
 ## Recursion
 **What is recursion?** \
 Recursion occurs when a thing is defined in terms of *itself* or of *its type*.  
@@ -219,8 +231,8 @@ Map applies a function to each element of a list and returns the list of results
 Filter applies a function to each element of a list and returns the list of elements that the function returns true for.
 
     ```racket;
-    Example: Filter even numbers
-    (filter (lambda (x) (= 0 (modulo x 2))) (list 1 2 3 4 5) -> (list 2 4)
+    ; Example: Filter even numbers
+    (filter (lambda (x) (= 0 (modulo x 2))) (list 1 2 3 4 5)) -> (list 2 4)
     ```
 
 * `Andmap`: [F: X->Boolean] [List of X] -> Boolean \
@@ -244,7 +256,7 @@ Foldr applies a function to each element of a list (starting with the right) and
 
     ```racket
     ; Example: Sum all elements in a list
-    (foldr (lambda (x y) (+ x y) 0 (list 1 2 3 4 5))) -> 15
+    (foldr (lambda (x y) (+ x y)) 0 (list 1 2 3 4 5)) -> 15
     ```
 
   Note: for each of these functions, the variable x in the lambda will be bound to single element of the list that is taken as an input.
@@ -276,8 +288,8 @@ ISL allows for local definitions within expressions. There are two main benefits
     ; slope: Number Number Number Number -> Number
     (define (slope x1 y1 x2 y2)
         (local
-            [(define rise (y2-y1)] ;definition
-            [(define run (x2-x1))] ;definition
+            [(define rise (- y2 y1)) ;definition
+            (define run (- x2 x1))] ;definition
             (/ rise run))) ;body
     ```
         
@@ -290,8 +302,8 @@ ISL allows for local definitions within expressions. There are two main benefits
             [(define (factorial-helper index accum)  ;definition
                 (cond
                     [(> n i) (factorial-helper (+ index 1) (* index accum))]
-                    [else accum])]
-            (factorial-helper 1 1)))) ;body
+                    [else accum]))]
+            (factorial-helper 1 1)))
     ```
 
     See `do-filter` in lab 8 for another example of local defintions of functions.
