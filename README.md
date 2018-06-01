@@ -240,7 +240,7 @@ Andmap applies a function to each element of a list and 'and's each result toget
 
     ```racket
     ; Example: Are all elements even?
-    (andmap (lambda(x) (= 0 (modulo x 2))) (list 2 4 6 8)) -> #true
+    (andmap (lambda (x) (= 0 (modulo x 2))) (list 2 4 6 8)) -> #true
     ```
 
 * `Ormap`: [F: X->Boolean] [List of X] -> Boolean \
@@ -268,7 +268,7 @@ Exercise 4 Use foldr to write andmap and ormap
 
 Exercise 5: Use foldr to write filter (hint: use andmap) 
 
-Exercise 6: When might it be useful to use map with a higher order-function that returns a function and a   list to return a list of functions?
+Exercise 6: When might it be useful to use map with a higher order-function that returns a function and a list to return a list of functions?
 ```
 
 ## Local and Lambda
@@ -303,7 +303,7 @@ ISL allows for local definitions within expressions. There are two main benefits
                 (cond
                     [(> n i) (factorial-helper (+ index 1) (* index accum))]
                     [else accum]))]
-            (factorial-helper 1 1)))
+            (factorial-helper 1 1))) ;body
     ```
 
     See `do-filter` in lab 8 for another example of local defintions of functions.
