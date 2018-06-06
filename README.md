@@ -128,24 +128,24 @@ Sometimes many data-definitions are defined in terms of *each other*. If this is
 ```racket
 (define-struct Tree [value children])
 ; A Tree is one of:
-; - “leaf'
+; - “leaf"
 ; - (make-Tree Number Children)
 ; Note: A tree must have at least one child.
 
-; Children is a [List of Tree]
+; Children is a [List-of Tree]
 ```
 
 Here, `Tree` refers to `Children` and `Children` refers to `Tree`. `Tree` and `Children` are said to be mutually recursive. How would we write a function to process these `Tree` and `Children` data-definitions? Again, we should define *templates* that closely follows the recursive data-definitions of `Tree` and `Children`.
 
 The templates would be as follows:
 ```racket
-(define (process-tree (a-tree)
+(define (process-tree a-tree)
     (cond
         [(string? a-tree) …]
         [else … (Tree-value a-tree) ...
                 … (process-children (Tree-children a-tree))]))
 
-(define (process-children (some-children)
+(define (process-children some-children)
     (cond
         [(empty? some-children) …]
         [else … (process-tree (first some-children)
