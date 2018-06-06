@@ -266,7 +266,7 @@ Exercise 3: Use foldr to write map
 
 Exercise 4 Use foldr to write andmap and ormap 
 
-Exercise 5: Use foldr to write filter (hint: use andmap) 
+Exercise 5: Use foldr to write filter
 
 Exercise 6: When might it be useful to use map with a higher order-function that returns a function and a list to return a list of functions?
 ```
@@ -310,7 +310,7 @@ ISL allows for local definitions within expressions. There are two main benefits
     There are several things to unpack in `factorial`:
     1) `Accum`  holds on to our in-progress 'answer' as we step through the factorial algorithm.
     2) Notice that `factorial-helper` references the variable `n`. `N` is a parameter of the outer `factorial` function. If `factorial-helpe`r was defined outside of `factorial`,
-    it would need to take an extra parameter to have access to n. Every inner function/definition can reference the parameters of the outer function. This is formally called **lexical scoping**.
+    it would need to take an extra parameter to have access to n. Every inner function/definition can reference the parameters of the outer function (even after the outer function returns). This is formally called **lexical scoping**.
 
     Here is another example of lexical scoping using lambda:
     ```racket
@@ -333,7 +333,7 @@ Let's do:
 ```racket
 (define my-function (create-closure 5)). 
 ```
-This definition binds the value of 5 to `x` and the name `my-function` to (lambda(y) (+ 5 y)). 
+This definition binds the value of 5 to `x` and the name `my-function` to `(lambda(y) (+ 5 y))`. 
 
 Now we can call my-function as such:
 ```racket
