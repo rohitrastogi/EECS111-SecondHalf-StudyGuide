@@ -166,6 +166,12 @@ When processing a `Tree`'s children, we first check if the `Children` is empty. 
     ; A ListOfAlternatingStringsandNumbers is one of:
     ; - '()
     ; - (cons String ListOfAlternatingNumbersandStrings)
+    
+    Then, write functions to accomplish the following:
+    - Sum up the numbers in a ListOfAlternatingStringsandNumbers, ignoring the strings.
+    - Concatenate all the strings in a ListOfAlternatingStringsandNumbers, ignoring the numbers.
+    - Concatenate all the strings and numbers in a ListOfAlternatingStringsandNumbers, converting the numbers to strings using number->string.
+    - Find the largest number and longest string in a ListOfAlternatingStringsandNumbers, and return both together in a struct.
 
 Note: Example taken from Mitchell Wand's Northeastern University Lecture on Mutually-Recursive Data Definitions
 
