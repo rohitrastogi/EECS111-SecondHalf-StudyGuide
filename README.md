@@ -165,7 +165,7 @@ When processing a `Tree`'s children, we first check if the `Children` is empty. 
 
     ; A ListOfAlternatingStringsandNumbers is one of:
     ; - '()
-    ; - (cons Number ListOfAlternatingNumbersandStrings)
+    ; - (cons String ListOfAlternatingNumbersandStrings)
 
 Note: Example taken from Mitchell Wand's Northeastern University Lecture on Mutually-Recursive Data Definitions
 
